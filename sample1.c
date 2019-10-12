@@ -6,7 +6,7 @@
 void display();
 void reshape(int,int);
 void timer(int);
-int i=10,j;
+int i=10,j,m=5;
 void init()
 {
 glClearColor(0.0,0.0,0.0,1.0);
@@ -29,15 +29,11 @@ int main(int argc,char **argv)
   init();
   glutMainLoop();
   }
- float y_pos[100];
+ float y_pos[100],y_pos1[100];
 void draw(int x,int y)
 {
 for(j=0;j<=i;j++){
-if(y_pos[j]<=-400){
-printf("lauda");
-continue;
-
-}
+if(y_pos[j]>-510){
 glTranslatef(0,y_pos[j],0);
 glBegin(GL_POLYGON);
 
@@ -48,6 +44,7 @@ glBegin(GL_POLYGON);
 glEnd();
 glLoadIdentity();
 }
+}
 glBegin(GL_POLYGON);
 
     glVertex2f(-170,100);
@@ -55,12 +52,25 @@ glBegin(GL_POLYGON);
 	glVertex2f(100,0);
 	glVertex2f(170,100);
 glEnd();
+   for(j=0;j<=m;j++){
+glTranslatef(0,y_pos1[j],0);
+ glBegin(GL_POLYGON);
+
+    glVertex2f(-25,25);
+	glVertex2f(-25,-25);
+	glVertex2f(25,-25);
+	glVertex2f(25,25);
+glEnd();
+glLoadIdentity();
+}
+
 }
   void display()
   {
      glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
      draw(50,50);
+printf("%f",y_pos[2]);
 //glutSwapBuffers();
 glFlush();
 }
@@ -86,21 +96,30 @@ else
 */
 for(j=0;j<=k;j++)
 {
-  if(y_pos[j]>-505){
+  //if(y_pos[j]>-505){
    if(j>0&&abs(y_pos[j-1]-y_pos[j])<150)
    continue;
   if(f==0){
          y_pos[j]-=15;
-         //f=1;
+         f=1;
          }
-  /* else
+   else
       {
-       y_pos[j]-=30;
-       f=1;
-      }*/
+       y_pos[j]-=50;
+       f=0;
+      }
  
 
-    }}
+    }
+if(y_pos[0]<-500){
+for(j=0;j<=m;j++)
+{
+  //if(y_pos[j]>-505){
+   if(j>0&&abs(y_pos1[j-1]-y_pos1[j])<70)
+   continue;
+
+         y_pos1[j]-=10;
+   }}
 if(k<=i)
   k++;
 }
