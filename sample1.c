@@ -16,11 +16,17 @@ glMatrixMode(GL_PROJECTION);
    glMatrixMode(GL_MODELVIEW);
 
 }
+
+int status[100];
+//
+
 int main(int argc,char **argv)
 {
   glutInit(&argc,argv);
   glutInitDisplayMode(GLUT_RGB|GLUT_SINGLE);
  glutInitWindowSize(500,500);
+status[1]=1;
+status[2]=1;
   glutInitWindowPosition(0,0);
   glutCreateWindow("Translation");
   glutDisplayFunc(display);
@@ -29,7 +35,9 @@ int main(int argc,char **argv)
   init();
   glutMainLoop();
   }
- float y_pos[100],y_pos1[100];
+ float y_pos[100],y_pos1[100],x_pos[100],angle[100];
+int status[100];
+//status[1]=1;
 void draw(int x,int y)
 {
 for(j=0;j<=i;j++){
@@ -44,12 +52,26 @@ glBegin(GL_POLYGON);
 glEnd();
 glLoadIdentity();
 }
+else if(status[j]==1)
+{
+glTranslatef(x_pos[j],y_pos[j],0);
+glRotatef(angle[j],0.0f,0.0f,1.0f);
+glBegin(GL_POLYGON);
+
+    glVertex2f(-50,500);
+	glVertex2f(-50,400);
+	glVertex2f(50,400);
+	glVertex2f(50,500);
+glEnd();
+glLoadIdentity();
+   
+}
 }
 glBegin(GL_POLYGON);
 
     glVertex2f(-170,100);
-	glVertex2f(-100,0);
-	glVertex2f(100,0);
+	glVertex2f(-100,-100);
+	glVertex2f(100,-100	);
 	glVertex2f(170,100);
 glEnd();
    for(j=0;j<=m;j++){
@@ -70,7 +92,7 @@ glLoadIdentity();
      glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
      draw(50,50);
-printf("%f",y_pos[2]);
+printf("%f\t%f",y_pos[1],angle[1]);
 //glutSwapBuffers();
 glFlush();
 }
@@ -96,6 +118,9 @@ else
 */
 for(j=0;j<=k;j++)
 {
+if(y_pos[j]<-510 && status[j]==1){
+  x_pos[j]-=25;
+  angle[j]+=10; }
   //if(y_pos[j]>-505){
    if(j>0&&abs(y_pos[j-1]-y_pos[j])<150)
    continue;
@@ -108,6 +133,7 @@ for(j=0;j<=k;j++)
        y_pos[j]-=50;
        f=0;
       }
+
  
 
     }
