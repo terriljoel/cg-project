@@ -13,7 +13,7 @@ void display();
 void lky_bckt();
 void timer(int);
 
-int g[100];
+//int g[100],bucket_size[100],e=0,st[100];
 
 struct packet{
     int arrtime;
@@ -31,8 +31,7 @@ PACKET[i].arrtime=i;
         printf("\nEnter the size of packet %d--",i);
         scanf("%d",&PACKET[i].weight);
     }
-  for(i=0;i<n;i++)
-        g[i]=500-20*i;
+ 
 }
 
 
@@ -49,7 +48,7 @@ void drawBitmapText( float x, float y, float z,char *string)
 
 void init()
 {
-   glClearColor(0.0,0.0,0.0,1.0);
+   glClearColor(192,192,192,1.0);
    glMatrixMode(GL_PROJECTION);
    glLoadIdentity();
    gluOrtho2D(0,1000,0,600);
@@ -65,80 +64,88 @@ int n,j,m,z=0;
 float y_pos[100],y_pos1[100],x_pos[100],angle[100];
 void draw(int x,int y)
  {
+
  
   for(j=0;j<n;j++)
    {
     if(y_pos[j]>-210)
      {
        glTranslatef(0,y_pos[j],0);
-       glColor3f(1,1,1);
+       glColor3f(1,0,1);
        glBegin(GL_POLYGON);
-       glVertex2f(250,550);
-       glVertex2f(250,500);
-       glVertex2f(350,500);
-       glVertex2f(350,550);
+       glVertex2f(270,550);
+       glVertex2f(270,500);
+       glVertex2f(330,500);
+       glVertex2f(330,550);
        glEnd();
        glLoadIdentity();
      }
     else if(status[j]==1)
      {
- char ch[30]="Packet ";
-char str[2],str1[20]=" discarded";
-str[0]=j+48;
+ char ch1[30]="Packet ";
+char str2[2],str1[20]=" discarded";
+str2[0]=j+48;
 glClear(GL_COLOR_BUFFER_BIT);
-  strcat(ch,str);
-strcat(ch,str1);
+  strcat(ch1,str2);
+strcat(ch1,str1);
      glColor3f(0,0,1);
-drawBitmapText(750,400,0,ch);
+drawBitmapText(750,400,0,ch1);
        glTranslatef(x_pos[j],y_pos[j],0);
        glRotatef(angle[j],0.0f,0.0f,1.0f);
        glColor3f(1,0,0);
        glBegin(GL_POLYGON);
-       glVertex2f(250,550);
-       glVertex2f(250,500);
-       glVertex2f(350,500);
-       glVertex2f(350,550);
+       glVertex2f(270,550);
+       glVertex2f(270,500);
+       glVertex2f(330,500);
+       glVertex2f(330,550);
        glEnd();
        glLoadIdentity();
-       glClearColor(0,0,0,1);
-     }
+       glClearColor(0.8,1,.1,1);
+     }/*
+else if)
+  {
+
+str[0]=bucket_size[j]+48;
+strcat(ch,str);
+  
+st[j]=1;
+  }*/
     }
-glColor3f(1,1,1);
+glColor3f(0,1,1);
    glBegin(GL_POLYGON);
-   glVertex2f(200,599);
-   glVertex2f(200,499);
-   glVertex2f(400,499);
-   glVertex2f(400,599);
+   glVertex2f(250,599);
+   glVertex2f(250,550);
+   glVertex2f(350,550);
+   glVertex2f(350,599);
    glEnd();
     glColor3f(0,0,1);
-drawBitmapText(210,549,0,"HOST COMPUTER");
+drawBitmapText(352,580,0,"HOST COMPUTER");
  glColor3f(0,0,1);
-drawBitmapText(450,400,0,"UNREGULATED FLOW");
-   glColor3f(1,1,1);
-   glBegin(GL_POLYGON);
-   glVertex2f(200,300);
-   glVertex2f(250,200);
-   glVertex2f(350,200	);
-   glVertex2f(400,300);
-   glEnd();
+drawBitmapText(352,400,0,"UNREGULATED FLOW");
+   
    for(j=0;j<m;j++)
     {
      glTranslatef(0,y_pos1[j],0);
-     glColor3f(1,1,1);
+     glColor3f(0,1,0);
      glBegin(GL_POLYGON);
-     glVertex2f(275,250);
-     glVertex2f(275,200);
-     glVertex2f(325,200);
-     glVertex2f(325,250);
+     glVertex2f(290,250);
+     glVertex2f(290,220);
+     glVertex2f(310,220);
+     glVertex2f(310,250);
      glEnd();
      glLoadIdentity();
     }
   glColor3f(0,0,1);
-drawBitmapText(450,150,0,"REGULATED FLOW");
+drawBitmapText(352,150,0,"REGULATED FLOW");
 glColor3f(0,0,1);
-drawBitmapText(750,500,0,"Bucket size 20");
-glColor3f(0,0,1);
-drawBitmapText(750,450,0,"Remaining bucket size");
+drawBitmapText(750,500,0,"Bucket size 250");
+glColor3f(0,1,1);
+   glBegin(GL_POLYGON);
+   glVertex2f(250,300);
+   glVertex2f(270,200);
+   glVertex2f(330,200	);
+   glVertex2f(350,300);
+   glEnd();
  
  }
 void show1()
@@ -164,10 +171,12 @@ void show1()
 		drawBitmapText(20,130,0.0,"2)TERRIL JOEL NAZARETH (USN:4NM16CS162)");
 		drawBitmapText(20,105,0.0,"3)THRUPTHI D           (USN:4NM16CS163)");
 		glColor3f(0.5,0.2,0.2);
-		drawBitmapText(7*w/10+10,150,0.0,"GUIDE NAME: Mrs. Shilpa ");
+		drawBitmapText(7*w/10+10,150,0.0,"GUIDE NAME: Mrs. Shilpa MK");
 		
 		glColor3f(1,0.1,1);
-		drawBitmapText(50,50,0.0,"PRESS 'S' TO START");
+		drawBitmapText(50,50,0.0,"PRESS 'C' TO START");
+                glColor3f(1,0.1,1);
+		drawBitmapText(50,10,0.0,"PRESS 'E' TO EXIT");
 		glMatrixMode(GL_MODELVIEW);
  }
 
@@ -200,14 +209,17 @@ printf("Enter the number of packets--");
     scanf("%d",&n);
     input(n);
     lky_bckt();
+glClearColor(0.8,1,.1,1);
     display();
    }
+if(key=='e')
+   exit(0);
  }
 void timer(int x)
  {
   
 glutPostRedisplay();
-    glutTimerFunc(1000/5,timer,0);
+    glutTimerFunc(1000/1,timer,0);
     
 if(z!=0){  
   
@@ -218,7 +230,7 @@ if(z!=0){
         x_pos[j]-=25;
         angle[j]+=10;
        }
-      if(j>0&&abs(y_pos[j-1]-y_pos[j])<150)
+      if(j>0&&abs(y_pos[j-1]-y_pos[j])<100)
         continue;
       if(f==0)
        {
@@ -267,7 +279,9 @@ void lky_bckt()
                 excess=excess-PACKET[j].weight;
                   printf("\nAt time=%d: packet %d is inserted into the bucket",i,j+1);
                 printf("\nRemaining bucket size is %d",excess);
+         
                 j++;
+            //bucket_size[j]=excess;
             }
             else
             {
@@ -285,6 +299,7 @@ void lky_bckt()
                     excess=excess+OUTRATE;
                     printf("\nAt time=%d: 25 KB are transferred",i);
                     printf("\nRemaining bucket size %d",excess);
+                  //  bucket_size[j]=excess;
             	 m++;
                 }
                 else if(rem>0)
@@ -292,6 +307,7 @@ void lky_bckt()
                     excess+=rem;
                      printf("\nAt time=%d: %d KB are transferred",i,rem);
                       printf("\nRemaining bucket size is %d",excess);
+                      //bucket_size[j]=excess;
                       rem=0;
      			  m++;
 
