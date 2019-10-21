@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include<string.h>
 #define OUTRATE 25
 #define BUCKETSIZE 250
 
@@ -12,7 +13,7 @@ void display();
 void lky_bckt();
 void timer(int);
 
-
+int g[100];
 
 struct packet{
     int arrtime;
@@ -30,6 +31,8 @@ PACKET[i].arrtime=i;
         printf("\nEnter the size of packet %d--",i);
         scanf("%d",&PACKET[i].weight);
     }
+  for(i=0;i<n;i++)
+        g[i]=500-20*i;
 }
 
 
@@ -62,15 +65,7 @@ int n,j,m,z=0;
 float y_pos[100],y_pos1[100],x_pos[100],angle[100];
 void draw(int x,int y)
  {
- glColor3f(1,1,1);
-   glBegin(GL_POLYGON);
-   glVertex2f(200,599);
-   glVertex2f(200,499);
-   glVertex2f(400,499);
-   glVertex2f(400,599);
-   glEnd();
-    glColor3f(0,0,1);
-drawBitmapText(210,549,0,"HOST COMPUTER");
+ 
   for(j=0;j<n;j++)
    {
     if(y_pos[j]>-210)
@@ -87,8 +82,14 @@ drawBitmapText(210,549,0,"HOST COMPUTER");
      }
     else if(status[j]==1)
      {
+ char ch[30]="Packet ";
+char str[2],str1[20]=" discarded";
+str[0]=j+48;
+glClear(GL_COLOR_BUFFER_BIT);
+  strcat(ch,str);
+strcat(ch,str1);
      glColor3f(0,0,1);
-drawBitmapText(600,500,0,"Packet dicarded");
+drawBitmapText(750,400,0,ch);
        glTranslatef(x_pos[j],y_pos[j],0);
        glRotatef(angle[j],0.0f,0.0f,1.0f);
        glColor3f(1,0,0);
@@ -102,7 +103,16 @@ drawBitmapText(600,500,0,"Packet dicarded");
        glClearColor(0,0,0,1);
      }
     }
-  glColor3f(0,0,1);
+glColor3f(1,1,1);
+   glBegin(GL_POLYGON);
+   glVertex2f(200,599);
+   glVertex2f(200,499);
+   glVertex2f(400,499);
+   glVertex2f(400,599);
+   glEnd();
+    glColor3f(0,0,1);
+drawBitmapText(210,549,0,"HOST COMPUTER");
+ glColor3f(0,0,1);
 drawBitmapText(450,400,0,"UNREGULATED FLOW");
    glColor3f(1,1,1);
    glBegin(GL_POLYGON);
@@ -125,6 +135,11 @@ drawBitmapText(450,400,0,"UNREGULATED FLOW");
     }
   glColor3f(0,0,1);
 drawBitmapText(450,150,0,"REGULATED FLOW");
+glColor3f(0,0,1);
+drawBitmapText(750,500,0,"Bucket size 20");
+glColor3f(0,0,1);
+drawBitmapText(750,450,0,"Remaining bucket size");
+ 
  }
 void show1()
  {
@@ -311,8 +326,8 @@ void lky_bckt()
 }
 int main(int argc,char **argv)
 {
-    //int n;
-    
+    //int i;
+  
 
     glutInit(&argc,argv);
     glutInitDisplayMode(GLUT_RGB|GLUT_SINGLE);
