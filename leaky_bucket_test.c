@@ -9,10 +9,11 @@
 #include<GL/glu.h>
 #include<GL/gl.h>
 
+char uc[2],rc[2],dc[2],unreg[25]="Unregulated packets=",reg[25]="Regulated packets=",dis[25]="Discarded packets=";
 void display();
 void lky_bckt();
 void timer(int);
-
+int a=0,m;
 //int g[100],bucket_size[100],e=0,st[100];
 
 struct packet{
@@ -22,6 +23,7 @@ struct packet{
 
 void input(int n)
 {
+   
     int i;
     for(i=0;i<n;i++)
     {
@@ -48,7 +50,7 @@ void drawBitmapText( float x, float y, float z,char *string)
 
 void init()
 {
-   glClearColor(192,192,192,1.0);
+   glClearColor(.1,1,.8,1.0);
    glMatrixMode(GL_PROJECTION);
    glLoadIdentity();
    gluOrtho2D(0,1000,0,600);
@@ -58,13 +60,11 @@ void init()
 
 
 int status[100];
-int n,j,m,z=0;
-
+int n,j,z=0;
 
 float y_pos[100],y_pos1[100],x_pos[100],angle[100];
 void draw(int x,int y)
  {
-
  
   for(j=0;j<n;j++)
    {
@@ -89,7 +89,7 @@ glClear(GL_COLOR_BUFFER_BIT);
   strcat(ch1,str2);
 strcat(ch1,str1);
      glColor3f(0,0,1);
-drawBitmapText(750,400,0,ch1);
+drawBitmapText(750,450,0,ch1);
        glTranslatef(x_pos[j],y_pos[j],0);
        glRotatef(angle[j],0.0f,0.0f,1.0f);
        glColor3f(1,0,0);
@@ -101,15 +101,9 @@ drawBitmapText(750,400,0,ch1);
        glEnd();
        glLoadIdentity();
        glClearColor(0.8,1,.1,1);
-     }/*
-else if)
-  {
+     }
 
-str[0]=bucket_size[j]+48;
-strcat(ch,str);
-  
-st[j]=1;
-  }*/
+
     }
 glColor3f(0,1,1);
    glBegin(GL_POLYGON);
@@ -122,6 +116,20 @@ glColor3f(0,1,1);
 drawBitmapText(352,580,0,"HOST COMPUTER");
  glColor3f(0,0,1);
 drawBitmapText(352,400,0,"UNREGULATED FLOW");
+
+
+ 
+glColor3f(0,0,1);
+drawBitmapText(750,400,0,unreg);
+
+ 
+  glColor3f(0,0,1);
+
+drawBitmapText(750,350,0,reg);
+
+glColor3f(0,0,1);
+drawBitmapText(750,300,0,dis);
+
    
    for(j=0;j<m;j++)
     {
@@ -154,7 +162,7 @@ void show1()
 	           glLoadIdentity();
                 int const w = glutGet(GLUT_WINDOW_WIDTH);
 		int const h = glutGet(GLUT_WINDOW_HEIGHT);
-         printf("\n%d--%d",w,h);
+       //  printf("\n%d--%d",w,h);
 	
 		glColor3f(0,0,1);
 		drawBitmapText(3*w/10+50,4*h/4+60,0,"NMAM INSTITUTE OF TECHNOLOGY");
@@ -167,9 +175,9 @@ void show1()
 		glColor3f(1,0.5,0);
 		drawBitmapText(5,180,0.0,"BY:");
 		glColor3f(0.5,0,0.5);
-		drawBitmapText(20,155,0.0,"1)SWEATHA P            (USN:4NM16CS161)");
-		drawBitmapText(20,130,0.0,"2)TERRIL JOEL NAZARETH (USN:4NM16CS162)");
-		drawBitmapText(20,105,0.0,"3)THRUPTHI D           (USN:4NM16CS163)");
+		drawBitmapText(20,155,0.0,"1)SWEATHA P (USN:4NM16CS161)");
+		drawBitmapText(20,130,0.0,"2)TERRIL J NAZARETH (USN:4NM16CS162)");
+		drawBitmapText(20,105,0.0,"3)THRUPTHI D (USN:4NM16CS163)");
 		glColor3f(0.5,0.2,0.2);
 		drawBitmapText(7*w/10+10,150,0.0,"GUIDE NAME: Mrs. Shilpa MK");
 		
@@ -209,6 +217,13 @@ printf("Enter the number of packets--");
     scanf("%d",&n);
     input(n);
     lky_bckt();
+ uc[0]=n+48;
+rc[0]=m+48;
+dc[0]=a+48;
+    strcat(unreg,uc);
+   strcat(reg,rc);
+   strcat(dis,dc);
+
 glClearColor(0.8,1,.1,1);
     display();
    }
@@ -219,7 +234,7 @@ void timer(int x)
  {
   
 glutPostRedisplay();
-    glutTimerFunc(1000/1,timer,0);
+    glutTimerFunc(1000/5,timer,0);
     
 if(z!=0){  
   
@@ -286,6 +301,7 @@ void lky_bckt()
             else
             {
                status[j]=1;
+             a++;
                  printf("\nAt time=%d: packet %d is discarded",i,j+1);
                  printf("\nPacket size is more than available bucket size");
                  j++;
